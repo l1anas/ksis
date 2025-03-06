@@ -82,19 +82,23 @@ def ping(destination, ttl_value, timeout_value=2):
 def perform_tracert(target, max_hops=30, packets_per_hop=3):
     print(f"Трассировка маршрута к {target} (максимум {max_hops} переходов):")
     for hop in range(1, max_hops + 1):
-        responses = []
+        times = []
+        ip = None
         for _ in range(packets_per_hop):
             addr, duration = ping(target, hop)
             if addr:
-                responses.append((addr, duration))
-        if responses:
-            avg_duration = sum(duration for _, duration in responses) / len(responses)
-            print(f"{hop}\t{avg_duration:.2f} мс\t{responses[0][0]}")
-            if responses[0][0] == target:
+                ip = addr
+                times.append(f"{duration:.2f} мс")
+            else:
+                times.append("*")
+
+        if ip:
+            print(f"{hop}\t{ip}\t{times[0]}\t{times[1]}\t{times[2]}")
+            if ip == target:
                 print("Узел достигнут.")
                 return
         else:
-            print(f"{hop}\t*\t*")
+            print(f"{hop}\t*\t*\t*\t*")
 
 if __name__ == "__main__":
     target_ip = input("Введите IP-адрес: ")
