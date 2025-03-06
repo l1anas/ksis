@@ -6,21 +6,19 @@ import select
 
 def calculate_checksum(data):
     total = 0
-    count = (len(data) // 2) * 2
-    i = 0
 
-    while i < count:
+    for i in range(0, len(data) - 1, 2):
         value = data[i + 1] * 256 + data[i]
         total += value
         total &= 0xffffffff
-        i += 2
 
-    if i < len(data):
+    if len(data) % 2 != 0:
         total += data[-1]
         total &= 0xffffffff
 
     total = (total >> 16) + (total & 0xffff)
     total += (total >> 16)
+
     result = ~total & 0xffff
     return (result >> 8) | ((result << 8) & 0xff00)
 
