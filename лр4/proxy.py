@@ -62,7 +62,7 @@ def get_response_code(response_data):
     except:
         return "???"
 
-def handle_client(client_socket):
+def handle_client(client_socket, client_addr):
     try:
         client_request = b''
         while b'\r\n\r\n' not in client_request:
