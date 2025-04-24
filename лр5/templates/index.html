@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Storage - {{ path }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
+        a { text-decoration: none; color: #0066cc; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>File Storage: /{{ path }}</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Modified</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>
+                {% if item.is_directory %}
+                    <a href="{{ item.url }}">{{ item.name }}</a>
+                {% else %}
+                    <a href="{{ item.url }}">{{ item.name }}</a>
+                {% endif %}
+            </td>
+            <td>{{ item.size }} bytes</td>
+            <td>{{ item.modified }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
